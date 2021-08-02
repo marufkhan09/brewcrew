@@ -9,7 +9,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   final AuthService _auth = AuthService();
 
   @override
@@ -22,19 +21,25 @@ class _SignInState extends State<SignIn> {
         title: Center(child: Text("Sign In to Brew Crew")),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20,horizontal: 50),
-        child: RaisedButton(
-          child: Text("Sign In Anon"),
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+        child: OutlinedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.white),
+          ),
+          child: Text(
+            "Sign In Anon",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
           onPressed: () async {
-         dynamic result = await _auth.signInAnon();
-         if(result == null){
-           print("Error signing in");
-         }
-         else{
-           print("Signed in");
-           print(result);
-         }
-
+            dynamic result = await _auth.signInAnon();
+            if (result == null) {
+              print("Error signing in");
+            } else {
+              print("Signed in");
+              print(result.uid);
+            }
           },
         ),
       ),
