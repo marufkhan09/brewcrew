@@ -1,4 +1,6 @@
 import 'package:brewcrew/services/auth.dart';
+import 'package:brewcrew/shared/constants.dart';
+import 'package:brewcrew/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -15,6 +17,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   //text field state
   String email = "";
@@ -25,7 +28,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         backgroundColor: Colors.grey,
@@ -61,6 +64,7 @@ class _RegisterState extends State<Register> {
                 height: 20,
               ),
               TextFormField(
+                decoration: textInputDecoration,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Enter an E-mail';
@@ -78,9 +82,10 @@ class _RegisterState extends State<Register> {
                 height: 20,
               ),
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: "password"),
                 validator: (val) {
                   if (val!.length < 6) {
-                    return 'Enter an Password containing minimum six characters';
+                    return 'Password must contain six characters';
                   } else {
                     return null;
                   }
@@ -97,15 +102,29 @@ class _RegisterState extends State<Register> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: BorderSide(
+                      color: Colors.black26,
+                      width: 2,
+                    ),
+                  )),
                   backgroundColor: MaterialStateProperty.all(Colors.grey),
                 ),
                 onPressed: () async {
+
                   if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      loading = true;
+                    });
                     dynamic result = await _auth.registerWithEmailAndPassword(
                         email, password);
                     if (result == null) {
                       setState(() {
+
                         error = "please register with a valid email";
+                        loading = false;
                       });
                     }
                   }

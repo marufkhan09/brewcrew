@@ -35,30 +35,30 @@ class AuthService {
 
   //sign in with email and pass
   signInWithEmailAndPassword(String email, String password) async {
-
-    try{
-      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      AuthResult result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       FirebaseUser user = result.user;
       return _userFromFirebaseUser(user);
-    }
-    catch(e){
+    } catch (e) {
       print(e.toString());
       return null;
     }
   }
+
   //register with email and pass
   registerWithEmailAndPassword(String email, String password) async {
-
-    try{
-     AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-     FirebaseUser user = result.user;
-     return _userFromFirebaseUser(user);
-    }
-    catch(e){
-    print(e.toString());
-    return null;
+    try {
+      AuthResult result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      FirebaseUser user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
     }
   }
+
   //sign out
 
   Future signOut() async {
@@ -66,6 +66,7 @@ class AuthService {
       //here we are just waiting for this to complete so no need to assign this
       //to something as when its completed the value of the user in root(wrapper)
       //will be null and it will return authenticate screen instead of home.
+
       return await _auth.signOut();
     } catch (e) {
       print(e.toString());

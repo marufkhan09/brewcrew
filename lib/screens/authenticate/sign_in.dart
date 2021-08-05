@@ -1,4 +1,6 @@
 import 'package:brewcrew/services/auth.dart';
+import 'package:brewcrew/shared/constants.dart';
+import 'package:brewcrew/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -13,9 +15,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
+
   //text field state
   String email = "";
   String password = "";
@@ -25,11 +28,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         backgroundColor: Colors.grey,
@@ -65,6 +64,7 @@ class _SignInState extends State<SignIn> {
                 height: 20,
               ),
               TextFormField(
+                decoration: textInputDecoration,
                 validator: (val) {
                   if (val!.isEmpty) {
                     return 'Enter an E-mail';
@@ -82,6 +82,7 @@ class _SignInState extends State<SignIn> {
                 height: 20,
               ),
               TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'password'),
                 validator: (val) {
                   if (val!.length < 6) {
                     return 'Enter an Password containing minimum six characters';
@@ -101,15 +102,28 @@ class _SignInState extends State<SignIn> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: BorderSide(
+                      color: Colors.black26,
+                      width: 2,
+                    ),
+                  )),
                   backgroundColor: MaterialStateProperty.all(Colors.grey),
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    dynamic result = await _auth.signInWithEmailAndPassword(
-                        email, password);
+                    setState(() {
+                      loading = true;
+                    });
+                    dynamic result =
+                        await _auth.signInWithEmailAndPassword(email, password);
                     if (result == null) {
                       setState(() {
+
                         error = "Couldn't Sign in With those Credentials ";
+                        loading = false;
                       });
                     }
                   }

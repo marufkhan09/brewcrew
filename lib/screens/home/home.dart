@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
-
     final AuthService _auth = AuthService();
 
     return Scaffold(
@@ -20,6 +17,7 @@ class Home extends StatelessWidget {
         actions: [
           TextButton.icon(
             onPressed: () async {
+
               await _auth.signOut();
             },
             icon: Icon(
