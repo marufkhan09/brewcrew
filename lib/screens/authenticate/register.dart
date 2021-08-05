@@ -32,29 +32,23 @@ class _RegisterState extends State<Register> {
         elevation: 0.0,
         title: Text("Sign Up to Brew Crew"),
         actions: [
-          // ElevatedButton.icon(
-          //   onPressed: () {
-          //     widget.toggleView();
-          //   },
-          //   icon: Icon(Icons.person),
-          //   label: Text("Sign In"),
-          //   style: ButtonStyle(
-          //     backgroundColor: MaterialStateProperty.all(Colors.black),
-          //     elevation: MaterialStateProperty.all(0.0),
-          //   ),
-          // ),
           TextButton.icon(
-            onPressed: (){
+            onPressed: () {
               widget.toggleView();
             },
-            icon: Icon(Icons.login_sharp,
-            color: Colors.white,),
-            label: Text("Sign In",style: TextStyle(color: Colors.white),),
+            icon: Icon(
+              Icons.login_sharp,
+              color: Colors.white,
+            ),
+            label: Text(
+              "Sign In",
+              style: TextStyle(color: Colors.white),
+            ),
             style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.grey),
-            elevation:  MaterialStateProperty.all(0.0),
-
-          ),)
+              backgroundColor: MaterialStateProperty.all(Colors.grey),
+              elevation: MaterialStateProperty.all(0.0),
+            ),
+          )
         ],
       ),
       body: Container(
@@ -107,11 +101,12 @@ class _RegisterState extends State<Register> {
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-                    if(result == null){
-                    setState(() {
-            error = "please register with a valid email";
-                    });
+                    dynamic result = await _auth.registerWithEmailAndPassword(
+                        email, password);
+                    if (result == null) {
+                      setState(() {
+                        error = "please register with a valid email";
+                      });
                     }
                   }
                 },
@@ -120,12 +115,16 @@ class _RegisterState extends State<Register> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              SizedBox(height: 12,),
-              Text(error,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.red,
-              ),),
+              SizedBox(
+                height: 12,
+              ),
+              Text(
+                error,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.red,
+                ),
+              ),
             ],
           ),
         ),

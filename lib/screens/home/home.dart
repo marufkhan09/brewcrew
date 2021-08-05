@@ -18,10 +18,23 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
         actions: [
-          FlatButton.icon(
-              onPressed: () async {
-                await _auth.signOut();
-              }, icon: Icon(Icons.person), label: Text("Logout"))
+          TextButton.icon(
+            onPressed: () async {
+              await _auth.signOut();
+            },
+            icon: Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+            label: Text(
+              "Logout",
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.brown[400]),
+              elevation: MaterialStateProperty.all(0.0),
+            ),
+          )
         ],
       ),
     );
