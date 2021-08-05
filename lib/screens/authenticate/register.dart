@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 class Register extends StatefulWidget {
   //const Register({Key? key}) : super(key: key);
 
-
   final Function toggleView;
+
   Register({required this.toggleView});
 
   @override
@@ -14,44 +14,66 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   //text field state
   String email = "";
   String password = "";
+  String error = "";
 
   //
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[100],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.brown[400],
+        backgroundColor: Colors.grey,
         elevation: 0.0,
         title: Text("Sign Up to Brew Crew"),
         actions: [
-          ElevatedButton.icon(
-            onPressed: () {
+          // ElevatedButton.icon(
+          //   onPressed: () {
+          //     widget.toggleView();
+          //   },
+          //   icon: Icon(Icons.person),
+          //   label: Text("Sign In"),
+          //   style: ButtonStyle(
+          //     backgroundColor: MaterialStateProperty.all(Colors.black),
+          //     elevation: MaterialStateProperty.all(0.0),
+          //   ),
+          // ),
+          TextButton.icon(
+            onPressed: (){
               widget.toggleView();
             },
-            icon: Icon(Icons.person),
-            label: Text("Sign In"),
+            icon: Icon(Icons.login_sharp,
+            color: Colors.white,),
+            label: Text("Sign In",style: TextStyle(color: Colors.white),),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.brown[400]),
-              elevation: MaterialStateProperty.all(0.0),
-            ),
-          ),
+            backgroundColor: MaterialStateProperty.all(Colors.grey),
+            elevation:  MaterialStateProperty.all(0.0),
+
+          ),)
         ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               SizedBox(
                 height: 20,
               ),
               TextFormField(
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    return 'Enter an E-mail';
+                  } else {
+                    return null;
+                  }
+                },
                 onChanged: (val) {
                   setState(() {
                     email = val;
@@ -62,6 +84,13 @@ class _RegisterState extends State<Register> {
                 height: 20,
               ),
               TextFormField(
+                validator: (val) {
+                  if (val!.length < 6) {
+                    return 'Enter an Password containing minimum six characters';
+                  } else {
+                    return null;
+                  }
+                },
                 obscureText: true,
                 onChanged: (val) {
                   setState(() {
@@ -74,17 +103,29 @@ class _RegisterState extends State<Register> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.pink[400]),
+                  backgroundColor: MaterialStateProperty.all(Colors.grey),
                 ),
                 onPressed: () async {
-                  print(email);
-                  print(password);
+                  if (_formKey.currentState!.validate()) {
+                    dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                    if(result == null){
+                    setState(() {
+            error = "please register with a valid email";
+                    });
+                    }
+                  }
                 },
                 child: Text(
                   "Register",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+              SizedBox(height: 12,),
+              Text(error,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.red,
+              ),),
             ],
           ),
         ),

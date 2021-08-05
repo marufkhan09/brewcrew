@@ -24,23 +24,25 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[100],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.brown[400],
+        backgroundColor: Colors.grey,
         elevation: 0.0,
         title: Text("Sign In to Brew Crew"),
         actions: [
-          ElevatedButton.icon(
-            onPressed: () {
+
+          TextButton.icon(
+            onPressed: (){
               widget.toggleView();
             },
-            icon: Icon(Icons.person),
-            label: Text("Register"),
+            icon: Icon(Icons.app_registration_rounded,
+              color: Colors.white,),
+            label: Text("Register",style: TextStyle(color: Colors.white),),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.brown[400]),
-              elevation: MaterialStateProperty.all(0.0),
-            ),
-          )
+              backgroundColor: MaterialStateProperty.all(Colors.grey),
+              elevation:  MaterialStateProperty.all(0.0),
+
+            ),)
         ],
       ),
       body: Container(
@@ -74,7 +76,7 @@ class _SignInState extends State<SignIn> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.pink[400]),
+                  backgroundColor: MaterialStateProperty.all(Colors.grey),
                 ),
                 onPressed: () async {
                   print(email);
@@ -85,6 +87,7 @@ class _SignInState extends State<SignIn> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+
             ],
           ),
         ),
